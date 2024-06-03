@@ -3,8 +3,8 @@
 *.pot
 *.pyc
 *.egg-info
+*.sqlite
 *.coverage
-*.tsbuildinfo
 *~
 .DS_Store
 .tmp*
@@ -15,8 +15,4 @@ local_settings.py
 build
 docs/_build
 dist
-node_modules/
-workdir/*
 htmlcov
-adminsortable2/static/adminsortable2/js/adminsortable2.*
-adminsortable2/templates/adminsortable2/edit_inline

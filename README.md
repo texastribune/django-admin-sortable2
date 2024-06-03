@@ -1,50 +1,50 @@
 # django-admin-sortable2
 
-This Django package adds functionality for generic drag-and-drop ordering of items in the List, the Stacked- and the
-Tabular-Inlines Views of the Django Admin interface.
+A replacement for django-admin-sortable using an unintrusive approach.
 
-[![Build Status](https://github.com/jrief/django-admin-sortable2/actions/workflows/tests.yml/badge.svg)](https://github.com/jrief/django-admin-sortable2/actions/workflows/tests.yml)
+[![Build Status](https://github.com/jrief/django-admin-sortable2/actions/workflows/django.yml/badge.svg)](https://github.com/jrief/django-admin-sortable2/actions/workflows/django.yml)
 [![PyPI version](https://img.shields.io/pypi/v/django-admin-sortable2.svg)](https://pypi.python.org/pypi/django-admin-sortable2)
 [![Python versions](https://img.shields.io/pypi/pyversions/django-admin-sortable2.svg)](https://pypi.python.org/pypi/django-admin-sortable2)
 [![Django versions](https://img.shields.io/pypi/djversions/django-admin-sortable2)](https://pypi.python.org/pypi/django-admin-sortable2)
 [![Downloads](https://img.shields.io/pypi/dm/django-admin-sortable2.svg)](https://img.shields.io/pypi/dm/django-admin-sortable2.svg)
 [![Software license](https://img.shields.io/pypi/l/django-admin-sortable2.svg)](https://github.com/jrief/django-admin-sortable2/blob/master/LICENSE)
 
-Check the demo:
+This plugin is a generic drag-and-drop ordering module for sorting objects in the List, the Stacked-
+and the Tabular-Inlines Views in the Django Admin interface.
 
-![Demo](https://raw.githubusercontent.com/jrief/django-admin-sortable2/master/docs/source/_static/django-admin-sortable2.gif)
+![Demo](https://raw.githubusercontent.com/jrief/django-admin-sortable2/master/demo.gif)
 
-This library offers simple mixin classes which enrich the functionality of any existing class inheriting from
-`admin.ModelAdmin`, `admin.StackedInline` or `admin.TabularInline`.
+This module offers simple mixin classes which enrich the functionality of any existing class derived
+from `admin.ModelAdmin`, `admin.StackedInline` or `admin.TabularInline`.
 
-It thus makes it very easy to integrate with existing models and their model admin interfaces. Existing models can
-inherit from `models.Model` or any other class derived thereof. No special base class is required.
-
-
-## Version 2.0
-
-This is a major rewrite of this **django-admin-sortable2**. It replaces the client side part against
-[Sortable.JS](https://sortablejs.github.io/Sortable/) and thus the need for jQuery.
-
-Replacing that library allowed me to add a new feature: Multiple items can now be dragged and dropped together.
+Thus it makes it very easy to integrate with existing models and their model admin interfaces.
+Existing models can inherit from `models.Model` or any other class derived thereof. No special
+base class is required.
 
 
-## Project's Home
+## Project's home
 
 https://github.com/jrief/django-admin-sortable2
 
-Detailled documentation can be found on [ReadTheDocs](https://django-admin-sortable2.readthedocs.org/en/latest/).
+Detailled documentation on [ReadTheDocs](http://django-admin-sortable2.readthedocs.org/en/latest/).
 
-Before reporting bugs or asking questions, please read the
-[contributor's guide](https://django-admin-sortable2.readthedocs.io/en/latest/contributing.html).
+To ask questions or reporting bugs, please use the [issue tracker](https://github.com/jrief/django-admin-sortable2/issues).
+
+
+## Why should You use it?
+
+All available plugins which add functionality to make list views for the Django admin interface
+sortable, offer a base class to be used instead of `models.Model`. This abstract base class then
+contains a hard coded position field, additional methods, and meta directives.
+
+This inhibits to create sortable abstract models. **django-admin-sortable2** does not have these
+restrictions.
 
 
 ## License
 
-Licensed under the terms of the MIT license.
+MIT licensed.
 
-Copyright &copy; 2013-2022 Jacob Rief and contributors.
+Copyright &copy; 2013-2021 Jacob Rief and contributors.
 
-Please follow me on
 [![Twitter Follow](https://img.shields.io/twitter/follow/jacobrief.svg?style=social&label=Jacob+Rief)](https://twitter.com/jacobrief)
-for updates and other news.

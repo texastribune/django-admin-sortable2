@@ -21,13 +21,14 @@ CLASSIFIERS = [
     'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     'Topic :: Software Development :: Libraries :: Application Frameworks',
     'Development Status :: 5 - Production/Stable',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
-    'Programming Language :: Python :: 3.11',
-    'Programming Language :: Python :: 3.12',
     'Framework :: Django',
-    'Framework :: Django :: 4.2',
-    'Framework :: Django :: 5.0',
+    'Framework :: Django :: 2.2',
+    'Framework :: Django :: 3.2',
+    'Framework :: Django :: 4.0',
 ]
 
 
@@ -44,7 +45,7 @@ setup(
     keywords=['django'],
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
-    packages=find_packages(exclude=['client', 'testapp', 'testapp*', 'docs']),
+    packages=find_packages(exclude=['example', 'docs']),
     include_package_data=True,
     zip_safe=False,
 )

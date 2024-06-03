@@ -1,9 +1,7 @@
-name: Publish django-admin-sortable2
+name: Publish django-formset
 
 on:
   push:
-    branches:
-      - master
     tags:
       - '*'
 
@@ -17,34 +15,18 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.11"]
-        node-version: ["18.x"]
+        python-version: ["3.9"]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-    - name: Install Dependencies
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
       run: |
-        npm ci --include=dev
+        python -m pip install --upgrade pip
         python -m pip install build --user
-    - name: Build Client
-      run: |
-        npm run build
-        npm run build -- --debug
-    - name: Patch templates
-      run: |
-        mkdir -p adminsortable2/templates/adminsortable2/edit_inline
-        DJANGO_VERSIONS=("4.2" "5.0")
-        for django_version in ${DJANGO_VERSIONS[@]}; do
-          echo $django_version
-          curl --silent --output adminsortable2/templates/adminsortable2/edit_inline/stacked-django-$django_version.html https://raw.githubusercontent.com/django/django/stable/$django_version.x/django/contrib/admin/templates/admin/edit_inline/stacked.html
-          curl --silent --output adminsortable2/templates/adminsortable2/edit_inline/tabular-django-$django_version.html https://raw.githubusercontent.com/django/django/stable/$django_version.x/django/contrib/admin/templates/admin/edit_inline/tabular.html
-          patch -p0 adminsortable2/templates/adminsortable2/edit_inline/stacked-django-$django_version.html patches/stacked-django-4.0.patch
-          patch -p0 adminsortable2/templates/adminsortable2/edit_inline/tabular-django-$django_version.html patches/tabular-django-4.0.patch
-        done
     - name: Build 🐍 Python 📦 Package
       run: python -m build --sdist --wheel --outdir dist/
     - name: Publish 🐍 Python 📦 Package to PyPI
