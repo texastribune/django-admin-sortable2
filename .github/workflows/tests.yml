@@ -1,24 +1,34 @@
-name: Publish django-admin-sortable2
+name: Test django-admin-sortable2
 
 on:
   push:
     branches:
       - master
-    tags:
-      - '*'
+    paths-ignore:
+      - '**.md'
+      - '**.rst'
+      - '/docs/**'
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
+      - '**.rst'
+      - '/docs/**'
 
 jobs:
-  publish:
-    name: "Publish release"
-    runs-on: "ubuntu-latest"
+  build:
 
-    environment:
-       name: deploy
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        python-version: ["3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
         node-version: ["18.x"]
+        django-version: ["4.2.*", "5.0.*"]
+        exclude:  # https://docs.djangoproject.com/en/5.0/faq/install/#what-python-version-can-i-use-with-django
+          - python-version: "3.9"
+            django-version: "5.0.*"
 
     steps:
     - uses: actions/checkout@v3
@@ -26,14 +36,20 @@ jobs:
       uses: actions/setup-node@v3
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
         npm ci --include=dev
-        python -m pip install build --user
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade setuptools wheel
+        python -m pip install "Django==${{ matrix.django-version }}"
+        python -m pip install -r testapp/requirements.txt
+        python -m playwright install
+        python -m playwright install-deps
     - name: Build Client
       run: |
         npm run build
-        npm run build -- --debug
     - name: Patch templates
       run: |
         mkdir -p adminsortable2/templates/adminsortable2/edit_inline
@@ -45,10 +61,7 @@ jobs:
           patch -p0 adminsortable2/templates/adminsortable2/edit_inline/stacked-django-$django_version.html patches/stacked-django-4.0.patch
           patch -p0 adminsortable2/templates/adminsortable2/edit_inline/tabular-django-$django_version.html patches/tabular-django-4.0.patch
         done
-    - name: Build 🐍 Python 📦 Package
-      run: python -m build --sdist --wheel --outdir dist/
-    - name: Publish 🐍 Python 📦 Package to PyPI
-      if: startsWith(github.ref, 'refs/tags')
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        password: ${{ secrets.PYPI_API_TOKEN_SORTABLE2 }}
+    - name: Test with pytest
+      run: |
+        mkdir -p workdir
+        python -m pytest testapp

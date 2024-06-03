@@ -4,27 +4,40 @@
 Installation
 ============
 
-Install **django-admin-sortable2**. The latest stable release can be found on PyPI
+Install **django-admin-sortable2**. The latest stable release is available on PyPI
 
 .. code-block:: bash
 
 	pip install django-admin-sortable2
 
-or the newest development version from GitHub
 
-.. code-block:: bash
+Upgrading from version 1
+========================
 
-	pip install -e git+https://github.com/jrief/django-admin-sortable2#egg=django-admin-sortable2
+When upgrading from version 1, check for ``StackedInline``- and ``TabularInline``-classes inheriting
+from ``SortableInlineAdminMixin``. If they do, check the class inheriting from ``ModelAdmin`` and
+using this inline-admin class. Since version 2, this class then also has to inherit from
+``SortableAdminBase`` or a class derived of thereof.
+
 
 Configuration
 =============
 
-Add ``'adminsortable2'`` to the list of ``INSTALLED_APPS`` in your project's ``settings.py`` file
+In the project's ``settings.py`` file add ``'adminsortable2'`` to the list of ``INSTALLED_APPS``:
 
 .. code-block:: python
 
-	INSTALLED_APPS = (
+	INSTALLED_APPS = [
+	    'django.contrib.auth',
+	    'django.contrib.contenttypes',
+	    'django.contrib.sessions',
+	    'django.contrib.admin',
+	    'django.contrib.staticfiles',
+	    'django.contrib.messages',
 	    ...
 	    'adminsortable2',
 	    ...
-	)
+	]
+
+The next step is to adopt the models to make them sortable. Please check the page :ref:`usage` for
+details.
